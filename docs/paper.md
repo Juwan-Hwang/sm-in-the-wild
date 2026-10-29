@@ -121,7 +121,7 @@ industry-standard predecessor both specify `C = C1 ‖ C3 ‖ C2`, while
 `C1 ‖ C2 ‖ C3` circulates in implementations (P3).
 
 Two properties of the standards matter for adjudication. First, compliance and
-security come apart: GM/T 0009-2023 §10 *permits* the default identity
+security come apart: GM/T 0009-2023 [28] §10 *permits* the default identity
 `"1234567812345678"` "absent special agreement", so a signature bound to it is
 compliant and binds nothing, and a rule that flags it flags every conformant
 implementation. Second, part of the normative text is only available as scanned images; the one clause previously held only as an OCR transcript has since been read first-hand from the official page image (Appendix F, T7).
@@ -585,7 +585,7 @@ leak, not the keystream reuse of F-0014.
 
 **Arrangement as an API choice (F-0073).** U5 defines an enum with both arrangements, and across all eleven published versions all 22 call sites select the non-standard order; a caller cannot obtain the standard order through its API.
 Two same-vendor manifest edges pin the defective version in the deps.dev index (queried 2026-10-26): one released application, whose call sites carry the defect, and one release candidate (reachability confirmed statically, Appendix C.3); the latest published version lists none. GB/T 32918.4-2016 and
-GM/T 0003.4-2012 both write `C1‖C3‖C2`, while the in-scope libraries expose
+GM/T 0003.4-2012 [29] both write `C1‖C3‖C2`, while the in-scope libraries expose
 `C1C2C3` as a selectable mode (Table 12, Appendix C.3), so which arrangement a
 deployment follows is a conformance judgement; the arrangement claim's L4 is
 the original adjudication, re-graded to L2 (Appendix C.9); the key stands at
@@ -1188,7 +1188,8 @@ from materials supplied with this paper. It does not re-run Appendix J's
 static-tool pilot (its original driver scripts are absent from this
 checkpoint); it cross-validates the preserved scoring record against the
 preserved raw tool outputs (R-0039). Requirements are Python 3.12, JDK 17 and Node 22 or 24; missing corpus
-inputs are reported as failures, not silently skipped. The v2 coding-time probes
+inputs are reported as failures, except two that are not shipped by design (the
+licensed standards PDFs and the extracted-tarball working directory), which are noted. The v2 coding-time probes
 were not preserved; the available per-row attempt and replay records are under
 `analysis/v2_adjudication/oracle/`. No independent human v2 review has been
 performed. Reviewers decide whether these omissions are justified.
@@ -2380,7 +2381,7 @@ repository has no SM rule), so the misses follow from rule coverage, not from th
 contract's shape.  In the other direction,
 CrySL's JCA rules reject the Guomi algorithm names themselves (17 constraint errors), and three tools flag a compliant SM4
 library class (ECB, `STATIC_IV`, 22 CrySL errors); they do not draw §5.2's
-library-versus-application distinction: six compliant npm artefacts draw no alarm.
+library-versus-application distinction: six compliant npm artefacts draw no alarm outside README and test files.
 
 
 
