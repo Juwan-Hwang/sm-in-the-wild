@@ -1,0 +1,35 @@
+{
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "title": "SM in the Wild: Measuring Security-Semantics Failures in Chinese Commercial Cryptography Implementations",
+  "creators": [
+    {
+      "name": "Hwang, Juwan",
+      "affiliation": "Shanghai Maritime University",
+      "orcid": "0009-0007-9231-8698"
+    }
+  ],
+  "description": "Chinese commercial cryptography (Guomi: SM2, SM3, SM4) exposes security inputs international APIs and misuse taxonomies omit: the signer's identity, the curve and the ciphertext arrangement. We call this gap *contract impedance mismatch* and measure its consequences in published software, not deployments. We build an executable SM2/SM3/SM4 oracle calibrated against four GB/T standards and two Bouncy Castle defects. Across 794 npm packages, 83 Maven artifacts and 59 Gitee repositories we find 147 adjudicated rows, 144 admitted package-frame pairs; recorded replay supports 140 (14 caveated; \u00a75). Confirmation is single-author and LLM-assisted, not independent human validation. One recorded finding grouping contributes 54 of 124 npm defect rows. It is no verified lineage: recorded, code-matched and construct-based memberships differ. By finding key: 64 keys, 27 at L5; that grouping is one key. Conversion is **56.6%** on npm (124 of 219 candidates); removing grouping numerator rows gives 32.0% (a counting scenario, not remeasurement; \u00a76.1). A JCA SM4 provider replaces caller-supplied IVs with a constant in four modes; a key agreement returns a constant SM4 key. Every demonstrated confidentiality break is a generic defect of this kind - known key, fixed IV, non-cryptographic randomness; the Guomi-specific categories yield conformance defects and permitted-but-weak defaults. Four detector families find 7 of a curated 28-finding cohort, all via hard-coded keys; none flags any Guomi-specific property. On 88 seeded defects our literal screen localises 37.5%, Semgrep's semantic screen 6.8%; neither localises the 12 provider-contract defects. Constant screens find implementations, not uses; a frame's membership rate must precede its precision. Prepared for submission to USENIX Security 2027 (Cycle 2). Artefacts whose findings are not already public are pseudonymized (U1-U59) per the paper's Ethical Considerations section.",
+  "access_right": "open",
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "cryptography",
+    "SM2",
+    "SM3",
+    "SM4",
+    "Guomi",
+    "API misuse",
+    "measurement study",
+    "npm",
+    "Maven",
+    "Gitee"
+  ],
+  "notes": "Preprint of a paper prepared for submission to USENIX Security 2027 (Cycle 2); the SEC27 CFP explicitly permits posting a preprint online, including during the review process. Artefacts whose findings are not already public are pseudonymized (U1-U59) per the paper's Ethical Considerations section.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Juwan-Hwang/sm-in-the-wild",
+      "relation": "isSupplementedBy",
+      "scheme": "url"
+    }
+  ]
+}
