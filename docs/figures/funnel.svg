@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="620" viewBox="0 0 1180 620" role="img" aria-label="Measurement funnel per ecosystem">
+<rect width="1180" height="620" fill="#ffffff"/>
+<text x="40" y="34" font-family="Inter,Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#1a1a1a" text-anchor="start">Figure 1. The measurement funnel per frame.</text>
+<text x="40" y="55" font-family="Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#767676" text-anchor="start">N3 is the union of each frame's literal screen, the structural detector and (npm) the use screen, over one shared file scope.</text>
+<text x="40" y="92" font-family="Inter,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1a1a1a" text-anchor="start">npm</text>
+<text x="40" y="111" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">794 packages</text>
+<line x1="40" y1="122" x2="372" y2="122" stroke="#c8c8c8" stroke-width="1"/>
+<text x="40" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N1</text>
+<text x="82" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">794</text>
+<text x="121" y="150" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">discovered</text>
+<text x="40" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N2</text>
+<text x="82" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">794 / 794</text>
+<text x="175" y="175" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">tarballs obtained</text>
+<text x="82" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">115</text>
+<text x="121" y="200" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">literal screen</text>
+<text x="66" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#767676" text-anchor="start">+</text>
+<text x="82" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">64</text>
+<text x="112" y="225" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">by DATA only</text>
+<text x="66" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#767676" text-anchor="start">+</text>
+<text x="82" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">40</text>
+<text x="112" y="250" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">by USE only</text>
+<text x="40" y="275" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N3</text>
+<text x="82" y="275" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">219</text>
+<text x="121" y="275" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">candidates (union)</text>
+<text x="40" y="309" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N5</text>
+<text x="82" y="309" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">124</text>
+<text x="121" y="309" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">confirmed (execution-supported)  56.6%</text>
+<text x="40" y="343" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N6</text>
+<text x="82" y="343" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">124</text>
+<text x="121" y="343" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">adjudicated defects</text>
+<line x1="40" y1="381" x2="372" y2="381" stroke="#c8c8c8" stroke-width="1"/>
+<text x="40" y="403" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">precision is N5/N3, not N5/N6</text>
+<line x1="388" y1="92" x2="388" y2="397" stroke="#c8c8c8" stroke-width="1"/>
+<text x="406" y="92" font-family="Inter,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1a1a1a" text-anchor="start">Maven Central</text>
+<text x="406" y="111" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">83 artifacts</text>
+<line x1="406" y1="122" x2="738" y2="122" stroke="#c8c8c8" stroke-width="1"/>
+<text x="406" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N1</text>
+<text x="448" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">83</text>
+<text x="478" y="150" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">closure has an SM class</text>
+<text x="406" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N2</text>
+<text x="448" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">82 / 83</text>
+<text x="523" y="175" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">sources.jar on disk</text>
+<text x="448" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">12</text>
+<text x="478" y="200" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">literal screens</text>
+<text x="432" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#767676" text-anchor="start">+</text>
+<text x="448" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">1</text>
+<text x="469" y="225" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">by DATA only</text>
+<text x="406" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N3</text>
+<text x="448" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">13</text>
+<text x="478" y="250" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">candidates (union)</text>
+<text x="406" y="284" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N5</text>
+<text x="448" y="284" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">0</text>
+<text x="469" y="284" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">confirmed (execution-supported)  0.0%</text>
+<text x="406" y="318" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N6</text>
+<text x="448" y="318" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">0</text>
+<text x="469" y="318" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">adjudicated defects</text>
+<line x1="406" y1="356" x2="738" y2="356" stroke="#c8c8c8" stroke-width="1"/>
+<text x="406" y="378" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">no jar reached an oracle</text>
+<line x1="754" y1="92" x2="754" y2="372" stroke="#c8c8c8" stroke-width="1"/>
+<text x="772" y="92" font-family="Inter,Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#1a1a1a" text-anchor="start">Gitee</text>
+<text x="772" y="111" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">59 repositories</text>
+<line x1="772" y1="122" x2="1104" y2="122" stroke="#c8c8c8" stroke-width="1"/>
+<text x="772" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N1</text>
+<text x="814" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">59</text>
+<text x="844" y="150" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">of 1415 discovered</text>
+<text x="772" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N2</text>
+<text x="814" y="175" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">59 / 59</text>
+<text x="889" y="175" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">on disk (60 scanned)</text>
+<text x="814" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">26</text>
+<text x="844" y="200" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">literal screen</text>
+<text x="798" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600" fill="#767676" text-anchor="start">+</text>
+<text x="814" y="225" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" font-weight="400" fill="#1a1a1a" text-anchor="start">12</text>
+<text x="844" y="225" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">by DATA only</text>
+<text x="772" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N3</text>
+<text x="814" y="250" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">38</text>
+<text x="844" y="250" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">candidates (union)</text>
+<text x="772" y="284" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N5</text>
+<text x="814" y="284" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">20</text>
+<text x="844" y="284" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">confirmed (execution-supported)  52.6%</text>
+<text x="772" y="318" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#767676" text-anchor="start">N6</text>
+<text x="814" y="318" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="20" font-weight="600" fill="#1a1a1a" text-anchor="start">23</text>
+<text x="844" y="318" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">adjudicated defects</text>
+<line x1="772" y1="356" x2="1104" y2="356" stroke="#c8c8c8" stroke-width="1"/>
+<text x="772" y="378" font-family="Inter,Helvetica,Arial,sans-serif" font-size="12" font-weight="400" fill="#767676" text-anchor="start">N6-N5=3: no executable oracle evidence</text>
+<line x1="40" y1="540" x2="1140" y2="540" stroke="#c8c8c8" stroke-width="1"/>
+<text x="40" y="562" font-family="Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#1a1a1a" text-anchor="start">Precision is N5/N3. N5 is execution-supported confirmation: the shipped artefact's own code ran under the oracle (environment repair such as shims permitted, code unmodified).</text>
+<text x="40" y="581" font-family="Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#767676" text-anchor="start">Each percentage is a within-frame ratio of this study's sampling frame, not a registry-wide rate.</text>
+<text x="40" y="600" font-family="Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="400" fill="#767676" text-anchor="start">The three frames are drawn side by side for layout and are NOT compared: they are different sampling frames, and no cross-ecosystem rate follows from them.</text>
+</svg>

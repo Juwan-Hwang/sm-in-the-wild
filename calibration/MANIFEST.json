@@ -1,0 +1,72 @@
+[
+  {
+    "path": "harness/refimpl/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source": "harness/refimpl/__init__.py",
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "change": "unchanged"
+  },
+  {
+    "path": "harness/refimpl/sm4.py",
+    "sha256": "5ac88177f71af4a412d0f0fab07132b98d150863ea26a444366c34a8eff1a891",
+    "source": "harness/refimpl/sm4.py",
+    "source_sha256": "5ac88177f71af4a412d0f0fab07132b98d150863ea26a444366c34a8eff1a891",
+    "change": "unchanged"
+  },
+  {
+    "path": "harness/refimpl/gcm.py",
+    "sha256": "5090bcd84cb0397a0ab2549f4e7c31a78b4e286bc7a3165dc75b4df2e99d8f0e",
+    "source": "harness/refimpl/gcm.py",
+    "source_sha256": "5090bcd84cb0397a0ab2549f4e7c31a78b4e286bc7a3165dc75b4df2e99d8f0e",
+    "change": "unchanged"
+  },
+  {
+    "path": "harness/refimpl/sm2_enc.py",
+    "sha256": "b8af79e0907b4693ee2038bba0249f16d59f5bc1d05aa60b1eeba9b356e07784",
+    "source": "harness/refimpl/sm2_enc.py",
+    "source_sha256": "eaf953f6068aee1093912b31e358d6212d70d4c1b7fbfcfd59cbc8fc8084f9b2",
+    "change": "removed long module-level verbatim standards quotation; executable code and numeric examples unchanged"
+  },
+  {
+    "path": "harness/refimpl/sm.py",
+    "sha256": "2b2667f812c765b22b1f587bcb5f7e94544796bb0907a2a5a4ba9fe96965d4ea",
+    "source": "harness/refimpl/sm.py",
+    "source_sha256": "db99824273000cd110f584250e8b5e84384207df44c90a25223ae3d423184bea",
+    "change": "removed introductory project/recovery discussion and recovery helper section; all retained code unchanged"
+  },
+  {
+    "path": "tests/test_sm3_vectors.py",
+    "sha256": "0e9238a36a59956b39b03143c29df111111b27649b6432144718d1513f235f9f",
+    "source": "tests/test_sm3_sm2_selfcheck.py",
+    "source_sha256": "915be05da9c24e0b0e10afef7de93ce6e09fdeb5ca87fb6ad91ee018088d14b0",
+    "change": "selected exact named AST nodes; imports/root boilerplate replaced; no assertion changes"
+  },
+  {
+    "path": "tests/test_sm4_vectors.py",
+    "sha256": "e1652416c37ee3d9212b2cbb95c2af428811086cf390be6a58656a51d7f06ae6",
+    "source": "tests/test_sm4_reference.py",
+    "source_sha256": "2981eea10c2ed2a0303112dd918c977fa80c1be321d9cd4fba5c0a91456965f5",
+    "change": "selected exact named AST nodes; imports/root boilerplate replaced; no assertion changes"
+  },
+  {
+    "path": "tests/test_sm2_recommended_curve.py",
+    "sha256": "3dc0d697b14e73fbe8745716ccb227a44209761cbe677dcc1604f2562d50ca5c",
+    "source": "tests/test_gbt32918_5_conformance.py",
+    "source_sha256": "e13fd648ad7be518dd5f2a3267ac26d023daf5e9e68769c7327ac6b5e166e88c",
+    "change": "selected exact named AST nodes; imports/root boilerplate replaced; no assertion changes"
+  },
+  {
+    "path": "tests/test_sm2_encryption.py",
+    "sha256": "41129c649f91f4af8b427f2835ff13931364cceeacb1e913055ef42edfcb8aaa",
+    "source": "tests/test_gbt32918_4_conformance.py",
+    "source_sha256": "b9b6069f11f3ddf1ba4344bc52fe5d9a0c48137bb4f9be2e7afe9efb833f5064",
+    "change": "selected exact named AST nodes; imports/root boilerplate replaced; no assertion changes"
+  },
+  {
+    "path": "tests/test_sm4_gcm_rfc.py",
+    "sha256": "c1b321341c86ff09869d35ab1cfd6d833df5769a830f1c45580b95a4711d8268",
+    "source": "tests/test_sm4_gcm_vectors.py",
+    "source_sha256": "10b1b33acbf0ab7ff2e953b1831e65797683ee1778264e53c55c22521e73c67d",
+    "change": "selected exact named AST nodes; imports/root boilerplate replaced; no assertion changes"
+  }
+]

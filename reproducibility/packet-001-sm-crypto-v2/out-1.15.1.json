@@ -1,0 +1,16 @@
+{
+ "version": "1.15.1",
+ "A_cbc_no_iv_equals_explicit_zero_iv": true,
+ "A_control_other_iv_differs": true,
+ "A_gcm_no_iv_equals_explicit_zero_iv": true,
+ "B_gcm_tampered_no_tag": {
+  "returned_bytes": "736576696577207061636b6574206d65",
+  "original_hex": "726576696577207061636b6574206d65"
+ },
+ "B_control_tampered_with_genuine_tag": {
+  "threw": "authentication tag mismatch"
+ },
+ "C_default_signature_verifies_with_hash_true": false,
+ "C_default_signature_verifies_with_default": true,
+ "C_control_hash_true_signature_verifies_with_hash_true": true
+}

@@ -1,0 +1,36 @@
+% Pandoc template: docs/paper.md in the official USENIX style (usenix-2020-09.sty,
+% from https://www.usenix.org/sites/default/files/usenixsecurity2027_latex_templates.zip).
+% US letter, two columns, 10pt Times; nothing here changes the style's geometry.
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{usenix-2020-09}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,array}
+\usepackage{fvextra}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage{amsmath,amssymb}
+\providecommand{\tightlist}{} % preserve article list spacing defaults
+\providecommand{\pandocbounded}[1]{#1}
+\DeclareUnicodeCharacter{2016}{\ensuremath{\|}}
+\DeclareUnicodeCharacter{222A}{\ensuremath{\cup}}
+\DeclareUnicodeCharacter{2295}{\ensuremath{\oplus}}
+\DeclareUnicodeCharacter{2026}{\ldots}
+\DeclareUnicodeCharacter{00B7}{\textperiodcentered}
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa}}
+% CJK runs (two references and one code span in Section 2.2) are replaced by build.sh with
+% \cjkimg{i} (vector glyphs from Noto Serif CJK SC) or, when the font is missing, with
+% \cjkbox{n}: a grey box of n ems, the width the ideographs would occupy (see build.sh).
+\newcommand{\cjkbox}[1]{\textcolor{gray}{\rule[-0.1em]{#1em}{0.8em}}}
+% \cjkimg{i}: CJK run i drawn as vector glyphs by cjk_glyphs.py (out/cjk/cjk<i>.pdf, n ems wide)
+\newcommand{\cjkimg}[1]{\raisebox{-0.12em}{\includegraphics[height=1em]{cjk/cjk#1.pdf}}}
+% Float-placement parameters and \tabcolsep are left at the style/article defaults:
+% the USENIX Security CFP requires page-limit compliance through content edits alone.
+\urlstyle{same}
+\begin{document}
+\date{}
+\title{$title$}
+\author{$author$}
+\maketitle
+$body$
+\label{lastpage}
+\end{document}

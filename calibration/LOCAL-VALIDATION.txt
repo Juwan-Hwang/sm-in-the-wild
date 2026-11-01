@@ -1,0 +1,17 @@
+PASS test_sm2_encryption.py test_decrypt_rejects_off_curve_c1 0.000s
+PASS test_sm2_encryption.py test_decryption_roundtrip_on_standard_vectors 0.008s
+PASS test_sm2_encryption.py test_encryption_matches_national_standard_vectors 0.022s
+PASS test_sm2_encryption.py test_standard_mandates_c1c3c2_layout 0.010s
+PASS test_sm2_recommended_curve.py test_c1c2c3_relayout_of_the_same_bytes_fails 0.005s
+PASS test_sm2_recommended_curve.py test_ciphertext_layout_is_c1_c3_c2 0.005s
+PASS test_sm2_recommended_curve.py test_curve_parameters_match_the_standard 0.000s
+PASS test_sm2_recommended_curve.py test_encryption_worked_example_on_the_real_curve 0.005s
+PASS test_sm2_recommended_curve.py test_signature_worked_example_on_the_real_curve 0.030s
+PASS test_sm3_vectors.py test_sm3_matches_national_standard_vectors 0.001s
+PASS test_sm4_gcm_rfc.py test_sm4_gcm_rfc8998_appendix_a1 0.001s
+PASS test_sm4_vectors.py test_ciphertext_example1 0.000s
+NOT RUN test_example2_million_iterations (opt in with --million)
+PASS test_sm4_vectors.py test_first_round_state 0.000s
+PASS test_sm4_vectors.py test_round_keys_match_gbt32907_appendix_a 0.000s
+PASS test_sm4_vectors.py test_roundtrip 0.000s
+15 assertions passed

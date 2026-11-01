@@ -1,0 +1,15 @@
+{
+ "version": "1.16.0",
+ "A_cbc_no_iv_equals_explicit_zero_iv": true,
+ "A_control_other_iv_differs": true,
+ "A_gcm_no_iv_equals_explicit_zero_iv": true,
+ "B_gcm_tampered_no_tag": {
+  "threw": "GCM decryption requires a 16-byte authentication tag"
+ },
+ "B_control_tampered_with_genuine_tag": {
+  "threw": "authentication tag mismatch"
+ },
+ "C_default_signature_verifies_with_hash_true": false,
+ "C_default_signature_verifies_with_default": true,
+ "C_control_hash_true_signature_verifies_with_hash_true": true
+}
