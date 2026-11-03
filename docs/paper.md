@@ -15,17 +15,19 @@ that international APIs and misuse taxonomies omit: the signer's identity, the
 curve and the ciphertext arrangement. We call this gap *contract impedance
 mismatch* and measure it in published software, not deployments.
 
-We build an executable SM2/SM3/SM4 oracle calibrated against four GB/T standards
+We build an executable SM2/SM3/SM4 oracle validated against four GB/T standards
 and two Bouncy Castle defects. Over three corpora (npm, Maven, Gitee) we find 147 adjudicated rows,
 which reduce to **64 finding keys** (§5). Confirmation is single-author and
 LLM-assisted, not independent human validation, and the 144 confirmed pairs come from a re-coding of all 270 candidates after a first pass that confirmed 17 (§6.1). Every demonstrated confidentiality
-break is a generic defect (known key, fixed IV, non-cryptographic randomness),
-including a JCA SM4 provider that replaces caller IVs with a constant; the
-Guomi-specific categories yield conformance defects and permitted-but-weak defaults.
+break but one is a generic defect (known key, fixed IV, non-cryptographic randomness),
+including a JCA SM4 provider that replaces caller IVs with a constant; the exception
+is a signature routine whose output carries the private key (F-0025). The identity,
+arrangement and curve categories (M3, M4, M5) yield conformance defects and
+permitted-but-weak defaults.
 
-Four detector families find 9 of a curated 28-finding cohort, all hard-coded keys;
+Four detector families find 9 of a curated 28-finding cohort (the first-pass v1 cohort; one member, F-0016, has since been retired), all hard-coded keys;
 none flags any Guomi-specific property. On 88 seeded defects our literal screen
-localises 37.5% and Semgrep's semantic screen 10.2%; neither localises the 12
+localises 37.5% and public Semgrep rule packs 10.2%; neither localises the 12
 provider-contract defects. Constant screens find implementations, not uses, and
 a frame's membership rate must precede its precision.
 
@@ -169,10 +171,10 @@ M14 is the case where a caller makes a legal call under a provider contract (JCA
 or a library's documented API), the provider accepts it and returns success, and
 the output is not the standard algorithm's output. The oracle criterion is
 byte-level comparison with a calibrated reference, or mutual verification of two
-API paths inside one provider. M14 covers four defects: two providers behind the
+API paths inside one provider. M14 is the primary category of four defects: two providers behind the
 JCA contract (F-0009, and F-0014 with its extension F-0018) and two npm libraries
 whose documented SM2 or SM4 API computes something that is not the named
-algorithm (F-0025, F-0028). The wider impedance pattern, an
+algorithm (F-0025, F-0028); further census keys carry M14 as one of several codes (Tables 14 and 15). The wider impedance pattern, an
 international API shape with no slot for a Guomi input, explains a further group:
 identity defaults that the JCA `Signature` interface cannot override (F-0008,
 F-0015, F-0002, F-0007), a curve that two providers resolve differently (F-0001),
@@ -192,7 +194,7 @@ implementations; a differential harness that runs real artefacts (published
 tarballs and jars, and compiled providers on a fixed JDK); and one verification
 script per finding, recorded for inspection against its artefact: every DEFECT
 row carries a recorded oracle outcome or attempt record, and two recorded
-PASSes stand uncredited (C.11). This review did not re-verify
+PASSes stand uncredited (C.11). We did not re-verify
 each verdict from a clean state.
 
 The calibration vectors follow. For SM2 signing:
@@ -233,8 +235,11 @@ and
 nonce generation from a jsbn SecureRandom pool the wall clock alone fills
 (CVE-2026-73567, GHSA-vh45-f885-3848 [35]): jsbn 1.1.0 reads `rng_psize`
 before its `var` assignment, so the Math.random fill is dead code and,
-absent `window.crypto`, `Date.getTime()` alone seeds the pool - the
-advisory's Math.random-and-clock description differs from the source. The
+where `window.crypto.getRandomValues` is unavailable (Node),
+`Date.getTime()` alone seeds the pool. We reproduced zero `Math.random` calls
+in Node; the advisory's first text (and NVD, as of 2026-11-02) said
+Math.random-and-clock, and the maintainer's repository advisory was corrected to
+clock-only on 2026-10-27 [35]. The
 0.5.0 fix (commit 1f9bd7bd) replaces jsbn's generator; it cannot reach the
 vendored copies our rows measure (§5.2).
 
@@ -262,8 +267,7 @@ one whose shipped default path was never run though its arithmetic was checked
 
 ### 3.3 What counts as a finding
 
-A finding is admitted only if four conditions hold: it is **executable** (a script
-reproduces it from a clean state); it is **on a shippable artefact** (a published
+A finding is admitted only if four conditions hold: it is **executable** (recorded executable evidence reproduces it: a script, or a recorded run with its output; 140 of the 144 confirmed pairs replay under the recorded replay, §3.1); it is **on a shippable artefact** (a published
 package or provider, or a repository that is itself the object); it has a
 **stated boundary** (what the oracle proves, what it does not, what needs human
 adjudication); and it has a **negative control** (the effect disappears when the
@@ -400,14 +404,14 @@ ignores the caller's IV.
 **F-0009: a known provider defect, rediscovered (validation case).**
 `bcprov-jdk15on` 1.57 registers `Signature.SM3withSM2`, but its SPI hands the SM3
 digest of the message to a signer that expects the message itself. The JCA
-signature is therefore sign(SM3(M), ID = ""), a standard SM2 signature of the
-prehash under an empty identity, and not sign(M, ID = default). Bouncy Castle
+signature is therefore `sign(SM3(M), ID = "")`, a standard SM2 signature of the
+prehash under an empty identity, and not `sign(M, ID = default)`. Bouncy Castle
 already knew: bc-java #218 (2017) reported both the repeated hashing and the
 missing default identity, and 1.59 fixed them [34]. Our oracle reached the defect
 without that history, which is the check we wanted: the method finds a real defect.
 Version 1.57 still resolves in our corpus, through `bcpkix-jdk15on:1.57` (U18,
 F-0007). In the verification matrix of Appendix A.1 the 1.57 and 1.58 JCA signatures
-verify 32 of 32 under (SM3(M), ID = "") and 0 of 32 under every reading that uses M, and a bisection over ten further jars puts the
+verify 32 of 32 under `(SM3(M), ID = "")` and 0 of 32 under every reading that uses M, and a bisection over ten further jars puts the
 change at 1.59 (`SM3withSM2` is absent in 1.55-1.56).
 
 This is the impedance mismatch in its sharpest form: a DSA-shaped SPI written for
@@ -510,7 +514,7 @@ Appendix C gives each finding's evidence.
 **Key agreement that returns a constant (F-0021).** `U47`'s main class
 module performs a genuine Diffie-Hellman exchange and then returns, as the SM4
 key, a compile-time literal (`0123456789abcdeffedcba9876543210`) derived from no
-input. The library's own decrypt with that constant recovers the plaintext,
+input. The library's own `decrypt` with that constant recovers the plaintext,
 and the README documents passing the returned key to `decrypt`, so the intended
 protocol is the broken one. The DH exponent is also recoverable (99,800 values,
 169 ms), but the ciphertext falls without it. It is a library defect; none of our
@@ -519,7 +523,7 @@ protocol is the broken one. The DH exponent is also recoverable (99,800 values,
 **Public values and predictable randomness as keys (F-0003, F-0017, F-0004,
 F-0026).** `U46` uses the first 32 hex characters of the SM2 public key as the
 SM4 key, so plaintext follows from public data alone (F-0003); the published
-package cannot be `require()`d because of a packaging error and had 603 downloads
+package cannot be `require()`d because of a packaging error and had few downloads
 in the year to 2026-10-12, so the affected deployments may number zero. `U45` builds its
 hybrid-encryption session key from 16 `Math.random()` draws (F-0017), and
 `U3` does the same (F-0004). V8's xorshift128+ is linear, so its state is
@@ -541,7 +545,7 @@ submitted login password with a self-consistent hard-coded private key, and its
 frontend hard-codes the matching public key (F-0013); a third party reported the
 same key publicly on 2026-08-13, so we claim independent verification of the pair
 and the closed source chain, not discovery. `U48` passes a self-consistent hard-coded private key to `doDecrypt` on
-its live path (F-0024); the same pair, SM4 key and IV sit in the 33,237-star (same scan)
+its live path (F-0024); the same pair, SM4 key and IV sit in the widely starred (same scan)
 `U49` server as `DATA ^ MASK` byte arrays reconstructed at class load. The server
 uses them to decrypt passwords at login, registration and reset (10 call sites),
 to encrypt nine identity and phone columns and TOTP seeds (25 call sites), and to
@@ -774,7 +778,7 @@ A fifth source is a sampling-frame error, not a pattern error; §6.3 measures it
 **A second coder.** A stratified sample of 55 npm candidates (19 positive, 36
 cleared), blind to our verdicts, was coded from the written rules by an LLM agent
 - not a human rater, and not blind to this paper (it named 18 at the time). Cohen's κ was **0.84** (bootstrap 95% 0.67–0.96; 0.54 on the 37 items unnamed),
-51 of 55 items agreeing. Of its four disagreements, two were our errors (F-0012
+51 of 55 items agreeing, against our first-pass (v1) verdicts: a check on rule decidability, not on the 144 re-coded pairs. Of its four disagreements, two were our errors (F-0012
 artefacts; N5 unchanged), one a demo widget, one F-0021; against the revised key 53/55 agree and κ is
 0.92, which is not independent. Six further
 LLM passes gave κ 0.31–0.66 and surfaced six real misuses (seven
@@ -782,7 +786,7 @@ packages) the literal half had cleared on the M3 rule alone (App. F, T11).
 
 ### 6.5 What the screens miss
 
-Every class above is a false positive. This section measures false negatives: the literal screen missed one in six zero-scored packages (15.8%) and localises 37.5% of seeded defects.
+Every class above is a false positive. This section measures false negatives: the structural screen found Guomi code in one in six packages the literal screen had scored zero (15.8%; a screening disagreement, not a count of missed defects), and the literal screen localises 37.5% of seeded defects.
 
 **Sensitivity of the literal screen.** A minifier rewrites identifiers and folds
 constants, so the strings a literal pattern matches disappear while the code
@@ -791,7 +795,7 @@ four published outputs, a literal-signature screen reports it in none (Appendix 
 confirmed by reading the constant in context: a screening-disagreement rate of
 **15.8%** (n = 57, Wilson 95% 8.5%–27.4%). Rather than extrapolate, we
 re-screened the whole zero-scored population, which added 64 structural candidates
-and moved N3 against us. Adjudicating them produced F-0021, F-0025 and F-0028. A holdout of four public advisories, all in one library (`sm-crypto`), is a negative result for the original pipeline: it nominated all four (fixed versions equally), localised none, and its oracle confirmed one; probes written after reading the advisories then reached four of four, which is not a holdout result for those probes (Appendix C.11).
+and moved N3 against us. Adjudicating them produced F-0021, F-0025 and F-0028. A holdout of four public advisories in one library (`sm-crypto`) is a negative result for the original pipeline: it nominated all four (fixed versions equally), localised none, and its oracle confirmed one; probes written after reading the advisories then reached four of four, which is not a holdout result for those probes (Appendix C.11).
 
 **Constants detect implementations, not uses.** The structural detector decides
 that an artefact carries Guomi by finding algorithm data, so it measures
@@ -858,7 +862,7 @@ Would off-the-shelf tools have found these defects? We ran four tool families,
 unmodified, over the curated 28-finding cohort: Semgrep OSS 1.182.1 [32],
 SpotBugs 4.9.8 with FindSecBugs 1.14.0 [33], CogniCrypt_SAST 5.0.1 with the
 published CrySL JCA rules [2] and CryptoGuard 04.05.03 [3] (configurations and
-applicability: Appendix J). Together they detect 9 of 28 (32%): all nine are
+applicability: Appendix J). Together they detect 9 of 28 (32%; v1 cohort, F-0016 since retired): all nine are
 hard-coded keys, the tools' home ground; Guomi-specific properties (M3, M4,
 M5, M11, M14) draw zero detections, as do the generic non-key properties
 (Table 19, Appendix J). None of these tool configurations has Guomi rules (the public CrySL repository has no SM rule), so
@@ -884,10 +888,7 @@ detected, both hard-coded keys.
 
 ### 6.7 Refuted priors and self-directed downgrades
 
-Two priors were refuted. We expected discarded `verify()` results (M10) to be
-common; across 794 npm packages there was one candidate, a JWT false positive. We
-expected SM3 misused as a MAC (M8); its 69 hits in 37 packages were all correct
-HMAC-SM3.
+Two priors about the literal rules were refuted. We expected the discarded-`verify()` rule (M10) to fire often; across 794 npm packages it gave one candidate, a JWT false positive. We expected the SM3-as-MAC rule (M8) to find misuse; its 69 hits in 37 packages were all correct HMAC-SM3. These concern the two literal rules only: the census codes M8 and M10 in other rows, reached by other routes (Tables 14, 15).
 
 Three findings were downgraded by our own measurements. F-0011 was first written
 up as "decrypt with public data alone"; its pair is not self-consistent and the claim was withdrawn. F-0004 and F-0017 first rested on "V8 seeds `Math.random()`
@@ -916,8 +917,8 @@ blind to such defects; only a calibrated external reference catches them.
 implementations. Whether they hide security inputs behind international APIs
 as Guomi does is a question for their own oracles; nothing here measures it.
 
-**Most damage is still generic.** Every demonstrated confidentiality break is a generic category (hard-coded keys, constant IVs, predictable or public
-values as keys). The Guomi-specific categories yielded conformance defects and
+**Most damage is still generic.** Every demonstrated confidentiality break but one is a generic category (hard-coded keys, constant IVs, predictable or public
+values as keys); the exception is F-0025, a signature that carries the private key. M3, M4 and M5 yielded conformance defects and
 permitted-but-weak defaults. Novelty and severity sit in different places, and we
 report them separately.
 
@@ -937,9 +938,9 @@ scalar `d` satisfies `[d]G = Q` separates a usable key from a decoy.
   battery-relative: ten further transformation classes defeat nine, with six
   silent negative controls (T12).
 * *Impact.* Findings stop at shipped artefacts, and measured exposure is lopsided:
-  most npm findings sit in little-downloaded packages (`U46` had 603 downloads
+  most npm findings sit in little-downloaded packages (`U46` had few downloads
   in a year; none of our 794 packages depends on F-0021's library), while the two
-  strongest findings are in Gitee applications with 36,194 and 33,237 stars (§5.2,
+  strongest findings are in Gitee applications with tens of thousands of stars each (§5.2,
   §5.4). The dependents we found through deps.dev are declared manifest edges, not
   reachability.
 * *Frames.* Maven does not represent application use. Gitee covers 59 of 1415
@@ -982,7 +983,7 @@ design [31]; CNKI and Wanfang article corpora were not reachable, so Chinese
 coverage is partial (Appendix H).
 
 **Newer detectors, side channels, ecosystem studies.** Recent detectors fuse code
-semantics with dynamic execution traces (CryptoTrace [36]) or fine-tune LLMs on
+semantics with dynamic execution traces (a multi-modal framework [36]) or fine-tune LLMs on
 JCA misuse (CryptoLLM [37]; [16] compares LLMs with rule-based tools). Like the
 tools above they target JCA-style APIs, and we did not run them on SM code. The
 SM literature on implementations is mostly about leakage and faults in a correct
@@ -1002,7 +1003,7 @@ can disappear behind APIs designed for other algorithms. A calibrated external
 oracle distinguishes this gap from surface matches and self-consistent errors;
 the four published detector families we evaluated do not cover its semantics.
 Our strongest demonstrated damage nevertheless comes from generic defects,
-including known keys and constant IVs, not from the Guomi-specific categories.
+including known keys and constant IVs, not from M3, M4 or M5.
 
 The published-artefact census admits 144 package-frame pairs on recorded evidence,
 with 140 replay-supported (§5). Its npm result is concentrated: one recorded
@@ -1072,7 +1073,7 @@ successful call honours it.
 
 [28] GM/T 0009-2023. SM2 cryptography algorithm application specification.
 
-[29] GM/T 0003.4-2012 and GM/T 0010-2023 (SM2-related cryptography industry standards; scanned documents without a text layer; the relied-upon GM/T 0003.4-2012 clauses read from the official page images, refs/GMT0003.4-2012-verified-clauses.md; GM/T 0010-2023 held as an OCR transcript).
+[29] GM/T 0003.4-2012 and GM/T 0010-2023 (SM2-related cryptography industry standards; scanned documents without a text layer; the relied-upon GM/T 0003.4-2012 clauses read from the official page images; GM/T 0010-2023 held as an OCR transcript).
 
 [30] Oracle. Java SE 17 API: `javax.crypto.CipherSpi` (`engineInit`, `engineGetIV`).
 
@@ -1084,7 +1085,7 @@ successful call honours it.
 
 [34] bc-java pull request #218, "Fix an incorrect of SM3WithSM2 signature algorithm" (2017-08-31), https://github.com/bcgit/bc-java/pull/218; fix commit b071aa17 (2017-09-01); Bouncy Castle 1.59 release notes (2017-12-28).
 
-[35] NVD. CVE-2026-73567: sm-crypto SM2 key generation and signing use insufficiently random values, fixed in 0.5.0. https://nvd.nist.gov/vuln/detail/CVE-2026-73567; GitHub Advisory GHSA-vh45-f885-3848; fix commit https://github.com/JuneAndGreen/sm-crypto/commit/1f9bd7bd160c24efd9c26c8f7fda997c68c823d0
+[35] NVD. CVE-2026-73567: sm-crypto SM2 key generation and signing use insufficiently random values, fixed in 0.5.0. https://nvd.nist.gov/vuln/detail/CVE-2026-73567; GitHub Advisory GHSA-vh45-f885-3848 (repository advisory text updated 2026-10-27); fix commit https://github.com/JuneAndGreen/sm-crypto/commit/1f9bd7bd160c24efd9c26c8f7fda997c68c823d0
 
 [36] Zhou, Jia, Niu, Zha. Fusing Code Semantics and Dynamic Execution Traces: A Multi-Modal Framework for Detecting Cryptographic API Misuse. ICICS 2026. doi:10.1007/978-981-92-6843-6_21
 
@@ -1148,8 +1149,8 @@ it is the only evidence in this paper not produced by our own adjudication. Four
 maintainers have replied so far; we report no reply rate, because the letters are
 between 2 and 18 days old and delivery is unverified for some.
 The letter log, with dates and failures, is in Appendix G. F-0009 is not a
-vulnerability, so it was posted as a public, non-security question in Bouncy
-Castle's GitHub Discussions; a maintainer replied the same day that it is the
+vulnerability, so it was posted as a public, non-security question to the library's
+maintainers; a maintainer replied that it is the
 known issue #218, fixed in 1.59 [34]. Findings graded as permitted behaviour
 (F-0002, F-0015, F-0008's 1.59+ half) or as divergence without a security property
 (F-0001) are reported as such and not disclosed as vulnerabilities.
@@ -1296,7 +1297,7 @@ jar hash is recorded and source-compiled and published-artefact runs agree. A
 fourth possibility, that the 1.57 behaviour was an intended digest-then-sign
 contract, is settled: Bouncy Castle treated it as a defect in 2017 and fixed it
 in 1.59 [34]. The test that pins the mechanism is positive, not negative: 1.57 and
-1.58 JCA signatures verify 32/32 under (SM3(M), ID = "") with two independent
+1.58 JCA signatures verify 32/32 under `(SM3(M), ID = "")` with two independent
 verifiers and 0/32 under every reading that uses `M`.
 
 ### A.3 The JCA contract F-0014 violates
@@ -1853,7 +1854,7 @@ other packages regardless.
 
 The last column is the 2026-10-26 state. On 2026-10-27 U31 left N5 (C.12):
 N5 144 (npm 124, Gitee 20), replay-supported 140/144 (97.2%), Gitee precision
-20/38 = 52.6%; N6 and the 64 keys are unchanged.
+20/38 = 52.6%; N6 and the 64 keys are unchanged. The 145 in the table is the figure before U31 left N5 (C.12); the 144 elsewhere is the same set without that row.
 
 Level distribution of the census keys (Table 3), before to after (the C21-only
 column is kept for the record; C21+C23 is adopted):
@@ -2132,7 +2133,7 @@ evaluated. CogniCrypt and CryptoGuard cover Java only (§7).
 possible and reported with its scope (§7).
 **T3 Recall.** Population recall is not measurable; precision is reported at
 N5/N3. Recall on seeded defects (§6.5) depends on a mix we chose and on an oracle
-written by the same authors as the mutants. Clearance adjudications got one
+written by the same author as the mutants. Clearance adjudications got one
 bounded check: under a frame frozen before any sampled unit was read (estimand:
 false-clearance re-review of the 118 adjudicated non-DEFECT rows, not the screen
 miss rate and not recall; strata npm 47/45 at the 20993-byte tarball median plus
@@ -2159,7 +2160,7 @@ worked example our implementation reproduces. GM/T 0009-2023 has no text layer
 recorded verbatim with page references. GM/T 0003.4-2012 sections 6.1 (A1-A8)
 and 5.4.3-5.4.4 were read first-hand from the official-source page images on
 2026-10-12 and are recorded verbatim with page references
-(refs/GMT0003.4-2012-verified-clauses.md; pages 8 and 10 are JBIG2 and remain
+(pages 8 and 10 are JBIG2 and remain
 unread). GM/T 0010-2023 remains an OCR transcript; it supplies message-syntax
 guidance only, and the arrangement claim does not rest on it.
 **T8 V8 seeding.** Twenty-four independent Node 24 processes produced 24 distinct
@@ -2194,7 +2195,7 @@ self-contained demo widget and the fixed IV protects no caller asset; a retracti
 
 Table 17 records what has been sent.
 
-**Table 17.** Disclosure state at the time of writing.
+**Table 17.** Disclosure state as of 2026-11-01; refreshed again before submission.
 
 | finding | artefact | channel | status |
 |---|---|---|---|
@@ -2210,7 +2211,7 @@ Table 17 records what has been sent.
 | **F-0026** | `U55` | email to the npm maintainer (upstream archived) | sent 2026-10-23 |
 | **F-0027** + **F-0011** | `U56`, `U57` | one email to the publisher's three addresses | sent 2026-10-23; one address hard-bounced (550), two did not |
 | **F-0028** | `U58`, `U59`, `U60` | one email covering all three packages, to the three registry-listed addresses | sent 2026-10-23 |
-| F-0009 | bcprov 1.57–1.58 | public GitHub Discussions question (not a vulnerability) | posted 2026-10-23; maintainer replied 2026-10-23: known (#218), fixed in 1.59 |
+| F-0009 | bcprov 1.57–1.58 | public question to the maintainers (not a vulnerability) | maintainer replied: known (#218), fixed in 1.59 [34] |
 
 The repository tracker records nine further sends dated 2026-10-24: the 23:51
 batch - IRR-02/IRR-33 (U23, one key under two registry names, one letter to the two registry-listed maintainer addresses), IRR-32 (U21), IRR-34 (U24), IRR-40 (`vue-msm4`) and IRR-46 (U25) - the 23:58 batch - IRR-18 (U22) and IRR-55 (U26) - and two out-of-frame letters, F-0030 (U27, Gitee, to the commit author) and F-0031 (U28, NuGet, to the source-repo commit author). Table
@@ -2267,7 +2268,7 @@ the maintainer publishes; on 2026-10-26 a withdrawal was sent for one
 premature claim (vue-msm4) and a correction for one letter
 (U53); on 2026-10-27 a correction was sent in the U21 thread retracting one unsubstantiated claim (the envelope
 ciphertext-order assertion; the SM4-ECB observation stands). GitHub private vulnerability reporting
-was available for none of the repositories involved (Appendix G). Coverage is partial and stated exactly: on 2026-10-27 letters were sent to the maintainers of the 42 previously undisclosed census keys (F-0004, F-0006, F-0007, F-0010, F-0012 and the admitted keys F-0032-F-0073) and of the two L3 sentinel keys (17 packages), so every census key except F-0013 (whose key a third party had already published) is now covered by at least one letter to an address the maintainer publishes; sixteen of the census keys stand at L5 (Tables 14 and 15). Sent is not delivered is not remediated, and a key covered by a letter is not a key whose every claim is notified. The remainder that still counts as undisclosed has three distinct sources. First, current campaign items: one package in the F-0032 lineage whose letter is held after two failed submission attempts, and the one F-0040 claim, a recorded log line, that the F-0040 letter deliberately excluded pending its independent re-review. Second, recipient failures observed by the last targeted mailbox check (2026-10-27; later bounces are in Ethical Considerations): two F-0032-lineage packages whose single registry-published maintainer address does not exist - the letter reached no one and the registry lists no alternative contact; one F-0032 package for which one of the eight published addresses returned mailbox-not-found; and partial-route failures on four further letters (three of seven addresses for one npm letter, and one of two addresses for each of three Gitee letters), where the remaining addresses returned no failure notice, which is not evidence of delivery, so their coverage is unverified. Third, the historical sent-but-unverified rows listed below (IRR-18, IRR-33, IRR-34, IRR-46, IRR-55). Also on 2026-10-27: a supplement was sent in the U21 thread covering the further finding classes not named in the 2026-10-24 letter; letters were sent to the maintainers of the three later-found F-0028 family instances (letters had been sent to the paper's three F-0028 packages on 2026-10-23); and letters were sent to the four remaining Gitee repositories, one addressed to the upstream maintainer address published in the mirrored project's package-registry metadata. F-0013's key was published by a third party on 2026-08-13, before our
+was available for none of the repositories involved (Appendix G). Coverage is partial and stated exactly: on 2026-10-27 letters were sent to the maintainers of the 42 previously undisclosed census keys (F-0004, F-0006, F-0007, F-0010, F-0012 and the admitted keys F-0032-F-0073) and of the two L3 sentinel keys (17 packages), so every census key except F-0013 (whose key a third party had already published) is now covered by at least one letter to an address the maintainer publishes; sixteen of those 42 keys stand at L5 (27 census keys stand at L5 in all; Tables 14 and 15). Sent is not delivered is not remediated, and a key covered by a letter is not a key whose every claim is notified. The remainder that still counts as undisclosed has three distinct sources. First, current campaign items: one package in the F-0032 lineage whose letter is held after two failed submission attempts, and the one F-0040 claim, a recorded log line, that the F-0040 letter deliberately excluded pending its independent re-review. Second, recipient failures observed by the last targeted mailbox check (2026-10-27; later bounces are in Ethical Considerations): two F-0032-lineage packages whose single registry-published maintainer address does not exist - the letter reached no one and the registry lists no alternative contact; one F-0032 package for which one of the eight published addresses returned mailbox-not-found; and partial-route failures on four further letters (three of seven addresses for one npm letter, and one of two addresses for each of three Gitee letters), where the remaining addresses returned no failure notice, which is not evidence of delivery, so their coverage is unverified. Third, the historical sent-but-unverified rows listed below (IRR-18, IRR-33, IRR-34, IRR-46, IRR-55). Also on 2026-10-27: a supplement was sent in the U21 thread covering the further finding classes not named in the 2026-10-24 letter; letters were sent to the maintainers of the three later-found F-0028 family instances (letters had been sent to the paper's three F-0028 packages on 2026-10-23); and letters were sent to the four remaining Gitee repositories, one addressed to the upstream maintainer address published in the mirrored project's package-registry metadata. F-0013's key was published by a third party on 2026-08-13, before our
 letter window. Five further rows (IRR-18, IRR-33, IRR-34,
 IRR-46, IRR-55) have letters recorded as sent on 2026-10-24 whose delivery
 could not be verified (Appendix G), so they count as undisclosed here; the
@@ -2284,9 +2285,9 @@ versions, what we do not claim, and questions, not a verdict) and asks for a
 90-day window. Replies are stated as of the disclosure-mailbox check of 2026-10-29; later developments are in the status paragraph of Ethical Considerations. Besides F-0009 below, one maintainer reply had been received: the maintainer of U61 (an F-0032-lineage package, letter sent 2026-10-27) replied the same day that the package has been unpublished from npm and is unmaintained, and the npm registry independently returned 404 for the package the same day. The analysis in this paper ran against the version published at analysis time; the package's subsequent removal changes its current distribution status, not the historical record. Replies arriving after that check are not reflected in this revision. Table 20 (Appendix J) collects the maintainer-side responses recorded up to 2026-10-28; it is the only evidence in this paper not produced by our own adjudication. Four
 maintainers have replied so far; we report no reply rate, because the letters are
 between 2 and 18 days old and delivery is unverified for some. F-0009 is not
-a vulnerability, so it was posted on 2026-10-23 as a
-public, non-security question in Bouncy Castle's GitHub Discussions. A maintainer
-replied the same day that it is the known issue #218, fixed in 1.59 [34]. Findings graded as permitted
+a vulnerability, so it was posted as a
+public, non-security question to the library's maintainers. A maintainer
+replied that it is the known issue #218, fixed in 1.59 [34]. Findings graded as permitted
 behaviour (F-0002, F-0015, F-0008's 1.59+ half) or as divergence without a security property
 (F-0001) are reported as such and not disclosed as vulnerabilities.
 
@@ -2411,6 +2412,9 @@ denominator sensitivity.
 
 ## Appendix J. The Static-Tool Baseline (npm Pilot)
 
+**Patch propagation (context for §8).** Of the 790 readable packages, 41 declare a dependency on `sm-crypto`, and for 40 of them the declared range resolves to a version that still has CVE-2026-73567 open; a further 45 ship a copy of the pre-fix source (`analysis/patch_propagation`, declared ranges only, no reachability).
+
+
 **JScamd and CrySL, specifically.** JScamd's 16 constraints cover four of our
 categories (Table 1); adding Guomi sinks alone would still give its taint
 rules no slot for the contract layer (M3, M4, M14) - an argument from the
@@ -2486,7 +2490,7 @@ sign-extension rule catches 4 of 4, the double-hash rule 1 of 4 (split form only
 nothing catches the key embedded in the signature (0 of 4). On the unmodified hosts the
 rules already fire (`sm4-crypto` 12, `sm-crypto` 8, `co-fb-crypto` 3, `we-sm2-password`
 0 hits), so any use outside a seeded benchmark would need triage. The rules were written
-after the defects by the same authors, in one pass with one syntax-debugging round and
+after the defects by the same author, in one pass with one syntax-debugging round and
 no tuning on scores. The result shows what a Guomi-aware rule can express, not how a
 third party's rules would perform.
 
@@ -2571,6 +2575,6 @@ pilot is single-reviewer and its S labels are provisional pending a second pass.
 | L3 npm package | email, then GitHub private report | fix promised | advisory drafted privately, not public |
 | F-0032 member (npm) | email | package unpublished and unmaintained | npm registry returns 404, verified independently |
 | L3 npm package (second) | email | agrees a publication date 14 days after its next release; asked for a package-specific technical description first | release published 2026-10-28; date pending confirmation |
-| F-0009 (Bouncy Castle) | public GitHub Discussion | identified as known issue #218, fixed in 1.59 | [34] |
+| F-0009 (Bouncy Castle) | public question | identified as known issue #218, fixed in 1.59 | [34] |
 
 Four rows answer our letters and one answers a public question; none is an independent re-grading of our rows.

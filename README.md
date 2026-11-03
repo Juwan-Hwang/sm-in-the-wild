@@ -6,9 +6,10 @@ Implementations" (prepared for submission to USENIX Security 2027,
 Cycle 2; the SEC27 CFP explicitly permits posting a preprint online,
 including during the review process).
 
-**Preprint (Zenodo):** [SM in the Wild (v1)](https://doi.org/10.5281/zenodo.23716987)
-- version DOI 10.5281/zenodo.23716987; concept DOI (always latest)
-10.5281/zenodo.23716986 - archived October 28, 2026, CC-BY-4.0.
+**Preprint (Zenodo):** [SM in the Wild (latest version)](https://doi.org/10.5281/zenodo.23716986)
+- concept DOI 10.5281/zenodo.23716986 always resolves to the latest public version
+(pseudonymized edition, CC-BY-4.0). Earlier versions are withdrawn from public
+access.
 
 ## Contents
 
