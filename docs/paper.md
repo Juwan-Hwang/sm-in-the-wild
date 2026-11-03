@@ -933,7 +933,7 @@ scalar `d` satisfies `[d]G = Q` separates a usable key from a decoy.
 
 * *Recall.* We lack population ground truth. Literal/data-screen disagreement
   is 15.8%; recall on 88 author-seeded defects is 37.5%, not corpus recall,
-  nor does the Java figure transfer (both §6.5).
+  nor does the Java figure transfer (both §6.5). jsbn-pattern package counts (54, 42) are lower bounds (C.13).
   The 46-encoding structural battery and 15-table negative control are
   battery-relative: ten further transformation classes defeat nine, with six
   silent negative controls (T12).
@@ -2011,6 +2011,20 @@ U19, whose FAIL only rejected the L4 claim and reproduced a one-bit L3 result);
 5 of the 17 probes (five packages, names withheld in this preprint) cannot be
 mapped to an archived script, a traceability gap in the private archive, not a
 failed result. Reviewers cannot inspect either (Open Science).
+
+### C.13 Post-freeze class-level extension (2026-11-03, post hoc)
+
+The census above is frozen at the 2026-10-26 records. After the CVE-2026-73567 holdout (§6) we asked whether the screening stage would have missed the same defect class in packages the original screens did not nominate. This section is a post-hoc extension, not a re-estimate of any frozen figure: the headline counts (144 package-frame pairs, 147 adjudicated rows, 64 finding keys, 27 at L5) are unchanged.
+
+*Detector.* A class-level dynamic probe, written after reading the advisory but not using any library string. For every package it loads the published tarball in Node, finds exported functions whose names suggest key, nonce, encryption or signing generation, and calls them four ways: with the clock, `Math.random` and `performance.now` frozen and the real CSPRNG left on (twice), with the clock and `Math.random` changed, and with `crypto` removed. A function is flagged when its output is identical across the two real-CSPRNG runs but changes with the clock or `Math.random` seed: its output is then determined by non-CSPRNG sources. A second flag marks functions that still return, and still vary with the clock, when `crypto` is removed (a weak fallback). The probe is not told the jsbn signature. The jsbn string-marker rule used in re-adjudication is kept as one labelled special case.
+
+*Blind validation, not a holdout.* On `sm-crypto` 0.3.6, 0.3.13 and 0.4.0 the probe flags `sm2.generateKeyPairHex` and `sm2.doEncrypt`; on the fixed 0.5.0 it flags nothing. The probe was built after the CVE was known, so this shows only that the detector does not depend on the signature, not that it would have been found beforehand.
+
+*Coverage.* 812 npm packages (the 794 of Table 2 plus 18 name-matched extras; two have since been unpublished). 415 load under Node, 98 export a function the probe can call, 44 are flagged. Of the 44, 38 are already DEFECT rows in the frozen census (the F-0032 grouping, F-0039, F-0054 and one L3 row). Three flags are not Guomi code (a time-stamped signature helper, a generic random utility, an RSA helper) and one is a package that only declares `sm-crypto` as a dependency, which census rule (c) records as CLEAN. One flagged package outside the 270 candidates is a real addition: it bundles the jsbn pool in a minified file the structural screen did not nominate. Under Node its `sm2Encrypt` returns identical ciphertext for identical clock values, and a search over a 4001 ms clock window recovers the victim clock from the ciphertext without the private key. We did not demonstrate plaintext recovery, so it stands at L4 here. It is not added to the frozen counts; admitting it would make the F-0032 family 55 rows and the census 145 pairs and 148 adjudicated rows, with the 64 keys unchanged. A static marker scan of the same 812 packages found five further in-frame packages that ship SM2 and the jsbn construct and were not candidates (four vendor UI bundles and one HTTP wrapper, names withheld). All five are browser bundles, where the pool is filled from `window.crypto` (rule (b) of the re-adjudication); we did not run them, so their standing is an expectation, not a measurement. Three further packages outside the 794 declare `jsbn` or `sm-crypto` and were not executed.
+
+*Other frames.* Maven: 82 of the 83 artefacts were re-fetched (one no longer resolves) and their own sources searched for `java.util.Random`, `Math.random`, `setSeed` and time-based seeding in files that mention SM2 or SM4: no hit tied to a key, nonce or `k`. Gitee: the 60 listed repositories were re-cloned and searched with the same Java, Go, Python, JavaScript and C patterns: every remaining hit is a verification code, a certificate serial number, a demo already ruled out, or `crypto/rand` mistaken by the C pattern; none is new. Neither frame was run dynamically here.
+
+*What this does not show.* Dynamic coverage is 98 of 812 packages; the rest (bundled browser code, packages without a callable export, packages that need configuration) were checked only by the static patterns. Packages that carry no Guomi constants and no SM dependency are outside the frames. A probe built after the CVE can only find what its design anticipates.
 
 ## Appendix D. The Use Screen
 
